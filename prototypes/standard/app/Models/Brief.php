@@ -13,6 +13,10 @@ class Brief extends Model
     protected $fillable = ['name', 'livraisonDate', 'recuperationDate', 'token'];
 
     public function taches(){
-        return $this->hasMany(Tache::class, 'briefToken', 'token');
+        $this->hasMany(Tache::class, 'briefToken');
+    }
+
+    public function students(){
+        $this->belongsToMany(Student::class, 'brief_token');
     }
 }

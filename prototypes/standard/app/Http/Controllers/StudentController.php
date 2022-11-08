@@ -2,13 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Brief;
+use App\Models\Student;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
-use App\Http\Requests\BriefRequest;
-use App\Models\Tache;
 
-class BriefController extends Controller
+class StudentController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -18,8 +16,8 @@ class BriefController extends Controller
     public function index()
     {
         //
-        $briefs = Brief::all();
-        return view('briefs.index', ['briefs' => $briefs]);
+        $students = Student::all();
+        return view('students.index', ['students' => $students]);
     }
 
     /**
@@ -30,7 +28,7 @@ class BriefController extends Controller
     public function create()
     {
         //
-        return view('briefs.add');
+        return view('students.add');
     }
 
     /**
@@ -39,14 +37,16 @@ class BriefController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(BriefRequest $request)
+    public function store(Request $request)
     {
         //
-        $brief = Brief::create([
-            'name'  => $request->name,
+        $student = Student::create([
+            'name' => $request->name,
+            'lastName' => $request->lastName,
+            'email' => $request->email,
             'token' => Str::random()
         ]);
-        return redirect()->route('brief.index');
+        return redirect()->route('student.index');
     }
 
     /**
@@ -69,9 +69,8 @@ class BriefController extends Controller
     public function edit($token)
     {
         //
-        $brief = Brief::where('token', $token)->firstOrFail();
-        $taches = $brief->taches;
-        return view('briefs.edit', ['brief' => $brief, 'taches' => $taches]);
+        $student = Student::where('token', $token)->firstOrFail();
+        return view('students.edit', ['student' => $student]);
     }
 
     /**
@@ -81,16 +80,16 @@ class BriefController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(BriefRequest $request, $token)
+    public function update(Request $request, $token)
     {
         //
-        $brief = Brief::where('token',$token)->firstOrFail();
-        $brief->update([
+        $student = Student::where('token', $token)->firstOrFail();
+        $student->update([
             'name' => $request->name,
-            'livraisonDate'    => $request->livraisonDate,
-            'recuperationDate' => $request->recuperationDate
+            'lastName' => $request->lastName,
+            'email' => $request->email
         ]);
-        return redirect()->route('brief.index', $brief->token);
+        return redirect()->route('student.index');
     }
 
     /**
@@ -102,8 +101,8 @@ class BriefController extends Controller
     public function destroy($token)
     {
         //
-        $brief = Brief::where('token', $token)->firstOrFail();
-        $brief->delete();
+        $student = Student::where('token', $token)->firstOrFail();
+        $student->delete();
         return back();
     }
 }

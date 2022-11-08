@@ -70,7 +70,8 @@ class BriefController extends Controller
     {
         //
         $brief = Brief::where('token', $token)->firstOrFail();
-        $taches = $brief->taches;
+        $taches = Tache::where('briefToken', $brief->token)->get();
+        // dd( $taches);
         return view('briefs.edit', ['brief' => $brief, 'taches' => $taches]);
     }
 
@@ -105,5 +106,9 @@ class BriefController extends Controller
         $brief = Brief::where('token', $token)->firstOrFail();
         $brief->delete();
         return back();
+    }
+
+    public function assigner(){
+        return view('briefs.assignement');
     }
 }

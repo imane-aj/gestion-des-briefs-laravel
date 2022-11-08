@@ -12,6 +12,6 @@ class Tache extends Model
     protected $table = 'taches';
     protected $fillable = ['name', 'startDate', 'endDate', 'briefToken'];
     public function brief(){
-        $this->belongsTo(Brief::class, 'token');
+        return $this->belongsTo(Brief::class, 'token', 'briefToken');
     }
 }

@@ -44,7 +44,7 @@ class TacheController extends Controller
             'name'       => $request->name,
             'startDate'  => $request->startDate,
             'endDate'    => $request->endDate,
-            'briefToken' => $request->briefToken 
+            'brief_id' => $request->brief_id 
         ]);
         return redirect()->route('brief.index');
     }
@@ -88,9 +88,9 @@ class TacheController extends Controller
             'name' => $request->name,
             'startDate' => $request->startDate,
             'endDate' => $request->endDate,
-            'briefToken' => $request->briefToken
+            'brief_id' => $request->brief_id
         ]);
-        return redirect()->route('brief.edit', $tache->briefToken);
+        return redirect()->route('brief.edit', $tache->brief->token);
     }
 
     /**

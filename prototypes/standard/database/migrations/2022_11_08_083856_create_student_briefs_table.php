@@ -14,7 +14,8 @@ return new class extends Migration
     public function up()
     {
         Schema::create('student_briefs', function (Blueprint $table) {
-            $table->string('student_token')->index()->unique();
+            $table->id();
+            $table->string('student_token')->index();
             $table->string('brief_token')->index();
             $table->foreign('student_token')->references('token')->on('students')->onDelete('cascade');
             $table->foreign('brief_token')->references('token')->on('briefs')->onDelete('cascade');

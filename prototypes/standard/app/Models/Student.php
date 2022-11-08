@@ -10,5 +10,7 @@ class Student extends Model
     // use HasFactory;
     protected $fillable = ['name', 'lastName', 'email', 'token'];
 
-    public function 
+   public function briefs(){
+        return $this->belongsToMany(Brief::class, 'brief_token', 'token');
+   }
 }

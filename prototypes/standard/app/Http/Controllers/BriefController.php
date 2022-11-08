@@ -6,6 +6,7 @@ use App\Models\Brief;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Http\Requests\BriefRequest;
+use App\Models\Student;
 use App\Models\Tache;
 
 class BriefController extends Controller
@@ -70,8 +71,7 @@ class BriefController extends Controller
     {
         //
         $brief = Brief::where('token', $token)->firstOrFail();
-        $taches = Tache::where('briefToken', $brief->token)->get();
-        // dd( $taches);
+        $taches = $brief->taches;
         return view('briefs.edit', ['brief' => $brief, 'taches' => $taches]);
     }
 
@@ -109,6 +109,7 @@ class BriefController extends Controller
     }
 
     public function assigner(){
-        return view('briefs.assignement');
+        $students = Student::all();
+        return view('briefs.assignement', ['students' => $students]);
     }
 }

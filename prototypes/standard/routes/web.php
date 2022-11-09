@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AssignController;
 use App\Http\Controllers\BriefController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\TacheController;
@@ -27,4 +28,4 @@ Route::get('/brief/{token}/tache',[TacheController::class, 'create'])->name('tac
 
 Route::resource('/student', StudentController::class);
 
-Route::get('/assignement', [BriefController::class, 'assigner'])->name('assign');
+Route::resource('/assignement', AssignController::class);

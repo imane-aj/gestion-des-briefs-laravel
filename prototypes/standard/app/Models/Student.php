@@ -11,6 +11,6 @@ class Student extends Model
     protected $fillable = ['name', 'lastName', 'email', 'token'];
 
    public function briefs(){
-        return $this->belongsToMany(Brief::class, 'brief_token', 'token');
+        return $this->belongsToMany(Brief::class, 'student_briefs');
    }
 }

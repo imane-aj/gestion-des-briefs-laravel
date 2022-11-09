@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('briefs', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('token')->index();
+            $table->string('token');
             $table->timestamp('livraisonDate')->nullable();
             $table->timestamp('recuperationDate')->nullable();
             $table->timestamps();

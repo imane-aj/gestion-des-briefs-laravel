@@ -1,3 +1,24 @@
+
+<p>brief : {{$brief->name}}</p>
+
 @foreach ($students as $value)
-    <p>{{$value->name}}</p>
+        @if (is_null($brief->students()->find($value->id)))
+        <p>{{$value->name}} <p>
+        <form action="{{route('assignement.store')}}" method="post">
+            @csrf
+            <input type="hidden" name="student_id" value="{{$value->id}}">
+            <input type="hidden" name="brief_id" value="{{$brief->id}}">
+            <button type="submit"> + </button>    
+        </form> 
+        @else    
+        <p style="color: red">{{$value->name}} <p>
+            <form action="{{route('assignement.destroy', $value->id)}}" method="post">
+                @csrf
+                @method('delete')
+                <input type="hidden" name="student_id" value="{{$value->id}}">
+                <input type="hidden" name="brief_id" value="{{$brief->id}}">
+                <button type="submit"> - </button>    
+            </form> 
+        @endif 
+        
 @endforeach

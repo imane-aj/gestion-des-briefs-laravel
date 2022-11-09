@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('name');
             $table->timestamp('startDate')->default(null);
             $table->timestamp('endDate')->default(null);
-            $table->string('briefToken');
+            $table->string('brief_id');
             $table->timestamps();
         });
     }

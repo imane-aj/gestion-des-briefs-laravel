@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('name');
             $table->string('lastName');
             $table->string('email')->unique();
-            $table->string('token')->index();
+            $table->string('token');
             $table->timestamps();
         });
     }

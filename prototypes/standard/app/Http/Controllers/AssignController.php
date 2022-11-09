@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\TacheRequest;
 use App\Models\Brief;
-use App\Models\Tache;
+use App\Models\Student;
+use App\Models\StudentBrief;
 use Illuminate\Http\Request;
 
-class TacheController extends Controller
+class AssignController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -24,11 +24,9 @@ class TacheController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create($token)
+    public function create()
     {
         //
-        $brief = Brief::where('token', $token)->firstOrFail();
-        return view('taches.add', ['brief' => $brief]);
     }
 
     /**
@@ -37,16 +35,14 @@ class TacheController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(TacheRequest $request)
+    public function store(Request $request)
     {
         //
-        $tache = Tache::create([
-            'name'       => $request->name,
-            'startDate'  => $request->startDate,
-            'endDate'    => $request->endDate,
-            'brief_id' => $request->brief_id 
+        $assign = StudentBrief::create([
+            'student_id' => $request->student_id,
+            'brief_id' => $request->brief_id
         ]);
-        return redirect()->route('brief.index');
+        return back();
     }
 
     /**
@@ -55,9 +51,14 @@ class TacheController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($token)
     {
         //
+        $students = Student::get();
+        $brief = Brief::where('token', $token)->firstOrFail();
+        // dd($brief->students->find(6));
+        
+        return view('briefs.assignement', ['brief' => $brief, 'students' => $students]); 
     }
 
     /**
@@ -69,8 +70,6 @@ class TacheController extends Controller
     public function edit($id)
     {
         //
-        $tache = Tache::findOrFail($id);
-        return view('taches.edit', ['tache' => $tache]);
     }
 
     /**
@@ -83,14 +82,6 @@ class TacheController extends Controller
     public function update(Request $request, $id)
     {
         //
-        $tache = Tache::findOrFail($id);
-        $tache->update([
-            'name' => $request->name,
-            'startDate' => $request->startDate,
-            'endDate' => $request->endDate,
-            'brief_id' => $request->brief_id
-        ]);
-        return redirect()->route('brief.edit', $tache->brief->token);
     }
 
     /**
@@ -99,11 +90,11 @@ class TacheController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request, $id)
     {
         //
-        $tache = Tache::findOrFail($id);
-        $tache->delete();  
-        return back();  
+        $brief_id = $request->brief_id;
+        StudentBrief::where([['student_id', $id], ['brief_id', $brief_id]])->delete();
+        return back();
     }
 }

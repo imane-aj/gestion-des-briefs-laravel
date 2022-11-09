@@ -7,5 +7,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class StudentBrief extends Model
 {
-    use HasFactory;
+    // use HasFactory;
+    protected $fillable = ['brief_id', 'student_id'];
 }

@@ -10,8 +10,8 @@ class Tache extends Model
 {
     // use HasFactory;
     protected $table = 'taches';
-    protected $fillable = ['name', 'startDate', 'endDate', 'briefToken'];
+    protected $fillable = ['name', 'startDate', 'endDate', 'brief_id'];
     public function brief(){
-        return $this->belongsTo(Brief::class, 'token', 'briefToken');
+        return $this->belongsTo(Brief::class);
     }
 }

@@ -15,10 +15,11 @@ return new class extends Migration
     {
         Schema::create('student_briefs', function (Blueprint $table) {
             $table->id();
-            $table->string('student_token')->index();
-            $table->string('brief_token')->index();
-            $table->foreign('student_token')->references('token')->on('students')->onDelete('cascade');
-            $table->foreign('brief_token')->references('token')->on('briefs')->onDelete('cascade');
+            $table->bigInteger('student_id')->unsigned();
+            $table->bigInteger('brief_id')->unsigned();
+            $table->foreign('student_id')->references('id')->on('students')->onDelete('cascade');
+            $table->foreign('brief_id')->references('id')->on('briefs')->onDelete('cascade');
+            // $table->primary(['brief_id','student_id']);
             $table->timestamps();
         });
     }

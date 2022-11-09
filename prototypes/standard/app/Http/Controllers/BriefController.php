@@ -45,6 +45,8 @@ class BriefController extends Controller
         //
         $brief = Brief::create([
             'name'  => $request->name,
+            'livraisonDate' => $request->livraisonDate,
+            'recuperationDate' => $request->recuperationDate,
             'token' => Str::random()
         ]);
         return redirect()->route('brief.index');
@@ -106,10 +108,5 @@ class BriefController extends Controller
         $brief = Brief::where('token', $token)->firstOrFail();
         $brief->delete();
         return back();
-    }
-
-    public function assigner(){
-        $students = Student::all();
-        return view('briefs.assignement', ['students' => $students]);
     }
 }

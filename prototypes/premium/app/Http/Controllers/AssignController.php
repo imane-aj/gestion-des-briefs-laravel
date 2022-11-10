@@ -38,11 +38,12 @@ class AssignController extends Controller
      */
     public function store(Request $request)
     {
-        //
-        $assign = StudentBrief::create([
-            'student_id' => $request->student_id,
-            'brief_id' => $request->brief_id
-        ]);
+        if (is_null(Brief::find($request->brief_id)->students()->find($request->student_id))) {
+            $assign = StudentBrief::create([
+                'student_id' => $request->student_id,
+                'brief_id' => $request->brief_id
+            ]);
+        }
         return back();
     }
 
@@ -57,7 +58,12 @@ class AssignController extends Controller
         //
         $students = Promotion::latest()->first()->students;
         $brief = Brief::where('token', $token)->firstOrFail();
-        return view('briefs.assignement', ['brief' => $brief, 'students' => $students]); 
+        
+        $assigned = array_map(function ($student) {
+            return $student['id'];
+        }, $brief->students->toArray());
+
+        return view('briefs.assignement', ['brief' => $brief, 'students' => $students, 'assigned' => $assigned]);
     }
 
     /**
@@ -97,16 +103,16 @@ class AssignController extends Controller
         return back();
     }
 
-    public function addAll(){
+    public function addAll()
+    {
         $students = Promotion::latest()->first()->students;
-        foreach($students as $student){
-            if (is_null(Brief::find(request()->id)->students()->find($student->id))){
-                StudentBrief::create( [
+        foreach ($students as $student) {
+            if (is_null(Brief::find(request()->id)->students()->find($student->id))) {
+                StudentBrief::create([
                     'student_id' => $student->id,
                     'brief_id' => request()->id
-            ]);
+                ]);
             }
-           
         };
         return back();
     }

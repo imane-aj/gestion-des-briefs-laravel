@@ -6,7 +6,7 @@
     add all</a>
 
 @foreach ($students as $value)
-        @if (is_null($brief->students()->find($value->id)))
+        @if (!in_array($value->id, $assigned))
         <p>{{$value->name}} <p>
         <form action="{{route('assignement.store')}}" method="post">
             @csrf

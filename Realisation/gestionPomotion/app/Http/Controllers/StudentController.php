@@ -2,25 +2,29 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\StudentRequest;
 use App\Models\Student;
+use App\Models\Promotion;
+use Illuminate\Support\Str;
+use App\Http\Requests\StudentRequest;
 
 class StudentController extends Controller
 {
     //
     public function create($token){
-        return view('student.add', ["token" => $token]);
+        $promotion = Promotion::where('token', $token)->firstOrFail();
+        return view('student.add', ['promotion'=> $promotion]);
     }
 
     public function store(StudentRequest $request){
-        // dd('store');
+        // 
         $student = Student::create([
             'name' => $request->name,
             'lastName' => $request->lastName,
             'email' => $request->email,
-            'promoToken' => $request->promoToken
+            'token' => Str::random(),
+            'promotion_id' => $request->promotion_id
         ]);
-        return redirect()->route('promotion.edit', $student->promoToken)->with('true', 'L"apprenant à été ajouté avec succés');
+        return redirect()->route('promotion.edit', $student->promotions->token)->with('true', 'L"apprenant à été ajouté avec succés');
     }
 
     public function edit($id){
@@ -37,7 +41,7 @@ class StudentController extends Controller
             'email' => $request->email,
         ]);
         
-        return redirect()->route('promotion.edit', $student->promoToken)
+        return redirect()->route('promotion.edit', $student->promotions->token)
         ->with('true', 'L"apprenant à été modifié avec succés');
     }
 

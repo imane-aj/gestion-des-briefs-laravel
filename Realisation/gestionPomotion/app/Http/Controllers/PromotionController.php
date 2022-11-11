@@ -6,6 +6,7 @@ use App\Models\Promotion;
 use Illuminate\Http\Request;
 use App\Http\Requests\PromotionRequest;
 use App\Models\Student;
+use App\Models\StudentBrief;
 use Illuminate\Support\Str;
 
 class PromotionController extends Controller
@@ -75,10 +76,14 @@ class PromotionController extends Controller
     {
         // 
         $promotion = Promotion::where('token', $token)->firstOrFail();
-        $studentPromo  = Student::where('promoToken', $promotion->token)->get();
+        $studentPromo  = $promotion->students;
+        $assigns = StudentBrief::select('briefs.name')->join('briefs','student_briefs.brief_id', 'briefs.id')
+        ->where('student_briefs.promotion_id', $promotion->id)
+        ->groupBy('briefs.name')->get();
         return view('promotion.edit', [
             'promotion' => $promotion,
-            'studentPromo'  => $studentPromo
+            'studentPromo'  => $studentPromo,
+            'assigns' => $assigns
         ]);
     }
 

@@ -14,6 +14,6 @@ class Promotion extends Model
     protected $guarded = [];
 
     public function students(){
-        $this->hasMany(Student::class);
+        return $this->hasMany(Student::class);
     }
 }

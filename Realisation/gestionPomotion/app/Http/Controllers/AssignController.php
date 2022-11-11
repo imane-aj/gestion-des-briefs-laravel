@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\Brief;
-use App\Models\Student;
 use App\Models\Promotion;
 use App\Models\StudentBrief;
 use Illuminate\Http\Request;
@@ -41,7 +40,8 @@ class AssignController extends Controller
         if (is_null(Brief::find($request->brief_id)->students()->find($request->student_id))) {
             $assign = StudentBrief::create([
                 'student_id' => $request->student_id,
-                'brief_id' => $request->brief_id
+                'brief_id' => $request->brief_id,
+                'promotion_id' => $request->promotion_id
             ]);
         }
         return back();
@@ -111,7 +111,8 @@ class AssignController extends Controller
             if (is_null(Brief::find(request()->id)->students()->find($student->id))) {
                 StudentBrief::create([
                     'student_id' => $student->id,
-                    'brief_id' => request()->id
+                    'brief_id' => request()->id,
+                    'promotion_id' => $student->promotion_id
                 ]);
             }
         };

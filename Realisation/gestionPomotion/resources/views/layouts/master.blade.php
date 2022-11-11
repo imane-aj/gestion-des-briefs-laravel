@@ -47,7 +47,10 @@
                                 </div>
                                 <div class="col-xl-4 col-md-4 d-flex justify-content-lg-end justify-content-md-end justify-content-center">
                                     <div class="follow">
-                                        <a class="btn btn-shadow" href="{{route('promotion.index')}}"><i class="la la-user-plus"></i>ACCUEILLE</a>
+                                        <a class="btn btn-shadow" style="margin-right: 1em" href="{{route('brief.index')}}"><i class="la la-user-plus"></i>Brief</a>
+                                    </div>
+                                    <div class="follow">
+                                        <a class="btn btn-shadow" href="{{route('promotion.index')}}"><i class="la la-user-plus"></i>Promotion</a>
                                     </div>
                                 </div>
                             </div>

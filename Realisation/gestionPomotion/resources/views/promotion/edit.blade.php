@@ -12,7 +12,7 @@
 @endif
 <div class="row editProJs">
     <div class="">
-        <input type="hidden" id="token" value="{{$promotion->token}}">
+        <input type="hidden" id="token" value="{{$promotion->id}}">
         <form action="{{route('promotion.update', $promotion->token)}}" method="post" class='edit'>
         @csrf
         @method('PUT')
@@ -30,9 +30,10 @@
 </div>
 
 
-<div class="tab-content" id="nav-tabContent">
-    <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
         <div class="student">
+            <h3>les briefs de cette promotion: @foreach ($assigns as $value)
+                <span>{{$value->name}}/</span>
+            @endforeach</h3>
             <div class="row searchStd editPro">
                 <div class="col-sm-8">
                     <a href="{{route('student.create', ['token' => $promotion->token])}}" class='addRoute'>Ajouter Student</a>
@@ -81,39 +82,6 @@
                 </div>
             @endforeach
         </div>
-    </div>
-    <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
-        <table class="table table-striped table-hover table-bordered promotion">
-            <thead>
-                <tr>
-                    <th class="start">Nom </th>
-                    <th>date/livraison </th>
-                    <th>date/récupération </th>
-                    <th>Totale Taches </th>
-                    <th>Totale apprenants </th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody id="div">
-                <tr>
-                    <td class="start"> <a href="" class="promoA">Laravel</a></td>
-                    <td>19/03/2023</td>
-                    <td>-</td>
-                    <td>0</td>
-                    <td>0</td>
-                    <td>
-                        {{-- <a href=""  class="edit"><i class="material-icons">&#xE254;</i></a> --}}
-                        <form method="post" action="">
-                            @method('delete')
-                            @csrf
-                            <button type="submit" class="delete"><i class="material-icons">&#xE872;</i></button>
-                        </form>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
-</div>
 
 
 

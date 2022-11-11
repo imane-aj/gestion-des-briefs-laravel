@@ -13,6 +13,11 @@ class Student extends Model
     protected $guarded = [];
 
     public function promotions(){
-        $this->belongsTo(Promotion::class);
+        return $this->belongsTo(Promotion::class, 'promotion_id');
     }
+
+    public function briefs(){
+        return $this->belongsToMany(Brief::class, 'student_briefs');
+   }
+
 }

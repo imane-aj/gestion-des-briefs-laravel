@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Promotion;
+use App\Models\Brief;
 use App\Models\Student;
-use GuzzleHttp\Psr7\Response;
+use App\Models\Promotion;
 use Illuminate\Http\Request;
+use GuzzleHttp\Psr7\Response;
 
 class SearchController extends Controller
 {
@@ -21,7 +22,7 @@ class SearchController extends Controller
                     foreach($promotions as $promotion){
                         $output.='<tr>'.
                         '<td>'.$promotion->name.'</td>'.
-                        '<td>'.Student::where('students.promoToken',$promotion->token)->count().'</td>'.
+                        '<td>'.Student::where('students.promotion_id',$promotion->id)->count().'</td>'.
                         '<td> <a href="' .route('promotion.edit',$promotion->token ).'" class="edit"><i class="material-icons">&#xE254;</i></a>
                          <form method="post" action="'.route('promotion.destroy',$promotion->id ).'">
                         <input type="hidden" name="_method" value="delete">
@@ -42,7 +43,7 @@ class SearchController extends Controller
             $key = $request->key;
             $token = $request->token;
                 $output = ' ';
-                $students = Student::where('promoToken', $token)
+                $students = Student::where('promotion_id', $token)
                     ->whereRaw("concat(name, ' ', lastName) like '%".$key."%'")->get();
                 // ->where(function($query)use ($key){
                 //     $query->whereRaw(('name', 'lastName'), 'like', '%' . $key . '%')
@@ -81,6 +82,37 @@ class SearchController extends Controller
                             </div>
                         </div>
                     </div>';
+                    }
+                    return Response($output);
+                }
+            
+            
+        }
+    }
+
+
+
+    public function searchBrief(Request $request){
+        if($request->ajax()){
+            
+            $query = $request->key;
+                $output = ' ';
+                $briefs = Brief::where('name', 'like', '%' . $query . '%')->get();
+                if($briefs){
+                    foreach($briefs as $brief){
+                        $output.='<tr>'.
+                        '<td>'.$brief->name.'</td>'.
+                        '<td>'.$brief->livraisonDate.'</td>'.
+                        '<td>'.$brief->recuperationDate.'</td>'.
+                        '<td> <a href="' .route('task.create', $brief->token).'">+ tâche</a></td>'.
+                        '<td> <a href="' .route('assignement.show', $brief->token).'">affecter</a></td>'.
+                        '<td> <a href="' .route('brief.edit',$brief->token ).'" class="edit"><i class="material-icons">&#xE254;</i></a>
+                         <form method="post" action="'.route('brief.destroy',$brief->id ).'">
+                        <input type="hidden" name="_method" value="delete">
+                        <input type="hidden" name="_token" value="'. csrf_token() .'">
+                            <button type="submit" class="delete"><i class="material-icons">&#xE872;</i></button>
+                        </form></td>'.
+                        '</tr>';
                     }
                     return Response($output);
                 }

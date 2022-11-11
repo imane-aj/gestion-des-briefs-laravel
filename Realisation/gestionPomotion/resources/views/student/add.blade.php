@@ -11,7 +11,7 @@
                     </div>
                     <div class="col-lg-6">
 
-                        <form action="{{ route('student.store', $token) }}" method="post">
+                        <form action="{{ route('student.store', $promotion->token) }}" method="post">
                             <div class="card-details">
                                 <h3 class="title">Student Details</h3>
                                 <div class="row">
@@ -52,7 +52,7 @@
                                             @enderror
                                         </div>
                                         <div class="form-group col-sm-12">
-                                            <input type="hidden" name="promoToken" value="{{$token}}">
+                                            <input type="hidden" name="promotion_id" value="{{$promotion->id}}">
                                             <button type="submit" class="btn btn-primary btn-block w-100">Ajouter</button>
                                         </div>
                                 </div>
